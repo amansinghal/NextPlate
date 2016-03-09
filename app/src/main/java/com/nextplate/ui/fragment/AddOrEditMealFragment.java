@@ -13,9 +13,13 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.nextplate.R;
 import com.nextplate.core.fragment.BaseFragment;
+import com.nextplate.custom_views.LLManager;
+import com.nextplate.custom_views.WrapContentLinearLayoutManager;
+import com.nextplate.models.ContentListing;
 import com.nextplate.models.Contents;
 import com.nextplate.models.Meals;
 import com.nextplate.ui.adapter_views.ContentItemView;
+import com.nextplate.ui.adapter_views.ContentListingItemView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,10 +44,10 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
     TextView tvMealDescription;
     @Bind(R.id.frag_addoredit_meal_price)
     TextView tvMealPrice;
-    @Bind(R.id.frag_addoredit_meal_daily_meal_rv_meal_listing)
+    @Bind(R.id.frag_addoredit_meal_rv_content_listing)
     RecyclerView rvListing;
     RecyclerMultiAdapter recyclerMultiAdapter;
-    List<Contents> contentsList = new ArrayList<>();
+    List<ContentListing> contentsList = new ArrayList<>();
 
     public static Fragment getInstance(String path)
     {
@@ -57,8 +61,9 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
     @Override
     public void onFragmentReady()
     {
-        rvListing.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
-        recyclerMultiAdapter = SmartAdapter.items(contentsList).map(Contents.class, ContentItemView.class).listener(this).recyclerAdapter();
+        rvListing.setLayoutManager(new WrapContentLinearLayoutManager(activity));
+        recyclerMultiAdapter = SmartAdapter.items(contentsList).map(ContentListing.class, ContentListingItemView.class).listener(this)
+                .recyclerAdapter();
         rvListing.setAdapter(recyclerMultiAdapter);
         if(getArguments() != null)
         {
@@ -94,7 +99,47 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
         tvMealPrice.setText(meals.getRupees() + " Rs.");
         tvMealDescription.setText(meals.getDescription());
         contentsList.clear();
-        contentsList.addAll(Arrays.asList(meals.getContents()));
+
+        ContentListing contentListing = new ContentListing();
+        contentListing.setContents(meals.getContents());
+        contentListing.setHeading("Daily meals");
+        contentsList.add(contentListing);
+
+        contentListing = new ContentListing();
+        contentListing.setContents(meals.getSUN_OPTION());
+        contentListing.setHeading("Sunday options");
+        contentsList.add(contentListing);
+
+        contentListing = new ContentListing();
+        contentListing.setContents(meals.getMON_OPTION());
+        contentListing.setHeading("Monday options");
+        contentsList.add(contentListing);
+
+        contentListing = new ContentListing();
+        contentListing.setContents(meals.getTUE_OPTION());
+        contentListing.setHeading("Tuesday options");
+        contentsList.add(contentListing);
+
+        contentListing = new ContentListing();
+        contentListing.setContents(meals.getWED_OPTION());
+        contentListing.setHeading("Wednesday options");
+        contentsList.add(contentListing);
+
+        contentListing = new ContentListing();
+        contentListing.setContents(meals.getTHR_OPTION());
+        contentListing.setHeading("Thursday options");
+        contentsList.add(contentListing);
+
+        contentListing = new ContentListing();
+        contentListing.setContents(meals.getFRI_OPTION());
+        contentListing.setHeading("Friday options");
+        contentsList.add(contentListing);
+
+        contentListing = new ContentListing();
+        contentListing.setContents(meals.getSAT_OPTION());
+        contentListing.setHeading("Saturday options");
+        contentsList.add(contentListing);
+
         recyclerMultiAdapter.notifyDataSetChanged();
     }
 

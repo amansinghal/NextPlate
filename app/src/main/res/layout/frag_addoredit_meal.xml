@@ -1,88 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:padding="10dp">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+    android:fillViewport="true">
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/frag_addoredit_meal_name"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:drawablePadding="10dp"
-        android:hint="Meal name"
-        android:inputType="textEmailAddress"
-        app:met_floatingLabel="highlight"
-        app:met_primaryColor="@color/complement_color"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/frag_addoredit_meal_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:drawablePadding="10dp"
-        android:hint="Short description"
-        android:inputType="text"
-        android:minLines="4"
-        app:met_floatingLabel="highlight"
-        app:met_primaryColor="@color/complement_color"/>
-
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/frag_addoredit_meal_price"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:drawablePadding="10dp"
-        android:hint="Meal price"
-        android:inputType="textEmailAddress"
-        app:met_floatingLabel="highlight"
-        app:met_primaryColor="@color/complement_color"/>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/frag_addoredit_meal_daily_cv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="4dp"
-        app:cardElevation="5dp"
-        >
-
-        <LinearLayout
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/frag_addoredit_meal_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:orientation="vertical"
-            >
+            android:layout_marginTop="10dp"
+            android:drawablePadding="10dp"
+            android:hint="Meal name"
+            android:inputType="textEmailAddress"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/complement_color"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/frag_addoredit_meal_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:drawablePadding="10dp"
+            android:hint="Short description"
+            android:inputType="text"
+            android:minLines="4"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/complement_color"/>
 
-                <TextView
-                    android:id="@+id/frag_addoredit_meal_daily_tv_heading"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Daily meal content"
-                    android:textSize="@dimen/text_size_20"
-                    android:textStyle="bold"/>
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/frag_addoredit_meal_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:drawablePadding="10dp"
+            android:hint="Meal price"
+            android:inputType="textEmailAddress"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/complement_color"/>
 
-                <Button
-                    android:id="@+id/frag_addoredit_meal_daily_meal_btn_add_new"
-                    style="@style/button_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Add new"/>
-            </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/frag_addoredit_meal_daily_meal_rv_meal_listing"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="5dp"/>
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/frag_addoredit_meal_rv_content_listing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
