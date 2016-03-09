@@ -8,6 +8,7 @@ public class Meals
     int id;
     String name;
     int rupees;
+    String description;
     Contents[] contents;
     Contents[] SUN_OPTION;
     Contents[] MON_OPTION;
@@ -16,6 +17,16 @@ public class Meals
     Contents[] THR_OPTION;
     Contents[] FRI_OPTION;
     Contents[] SAT_OPTION;
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
 
     public int getId()
     {

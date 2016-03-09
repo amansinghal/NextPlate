@@ -19,6 +19,8 @@ public class MealsItemView extends BindableLayout<Meals>
     TextView name;
     @Bind(R.id.meal_item_view_rupees)
     TextView rupees;
+    @Bind(R.id.meal_item_view_desc)
+    TextView desc;
 
     public MealsItemView(Context context)
     {
@@ -45,5 +47,6 @@ public class MealsItemView extends BindableLayout<Meals>
         });
         name.setText(meals.getName());
         rupees.setText(meals.getRupees()+"Rs.");
+        desc.setText(meals.getDescription());
     }
 }
