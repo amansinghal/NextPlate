@@ -10,13 +10,13 @@ public class Meals
     int rupees;
     String description;
     Contents[] contents;
-    Contents[] SUN_OPTION;
-    Contents[] MON_OPTION;
-    Contents[] TUE_OPTION;
-    Contents[] WED_OPTION;
-    Contents[] THR_OPTION;
-    Contents[] FRI_OPTION;
-    Contents[] SAT_OPTION;
+    Contents[] sun_option;
+    Contents[] mon_option;
+    Contents[] tue_option;
+    Contents[] wed_option;
+    Contents[] thr_option;
+    Contents[] fri_option;
+    Contents[] sat_option;
 
     public String getDescription()
     {
@@ -68,73 +68,73 @@ public class Meals
         this.contents = contents;
     }
 
-    public Contents[] getSUN_OPTION()
+    public Contents[] getSun_option()
     {
-        return SUN_OPTION;
+        return sun_option;
     }
 
-    public void setSUN_OPTION(Contents[] SUN_OPTION)
+    public void setSun_option(Contents[] sun_option)
     {
-        this.SUN_OPTION = SUN_OPTION;
+        this.sun_option = sun_option;
     }
 
-    public Contents[] getMON_OPTION()
+    public Contents[] getMon_option()
     {
-        return MON_OPTION;
+        return mon_option;
     }
 
-    public void setMON_OPTION(Contents[] MON_OPTION)
+    public void setMon_option(Contents[] mon_option)
     {
-        this.MON_OPTION = MON_OPTION;
+        this.mon_option = mon_option;
     }
 
-    public Contents[] getTUE_OPTION()
+    public Contents[] getTue_option()
     {
-        return TUE_OPTION;
+        return tue_option;
     }
 
-    public void setTUE_OPTION(Contents[] TUE_OPTION)
+    public void setTue_option(Contents[] tue_option)
     {
-        this.TUE_OPTION = TUE_OPTION;
+        this.tue_option = tue_option;
     }
 
-    public Contents[] getWED_OPTION()
+    public Contents[] getWed_option()
     {
-        return WED_OPTION;
+        return wed_option;
     }
 
-    public void setWED_OPTION(Contents[] WED_OPTION)
+    public void setWed_option(Contents[] wed_option)
     {
-        this.WED_OPTION = WED_OPTION;
+        this.wed_option = wed_option;
     }
 
-    public Contents[] getTHR_OPTION()
+    public Contents[] getThr_option()
     {
-        return THR_OPTION;
+        return thr_option;
     }
 
-    public void setTHR_OPTION(Contents[] THR_OPTION)
+    public void setThr_option(Contents[] thr_option)
     {
-        this.THR_OPTION = THR_OPTION;
+        this.thr_option = thr_option;
     }
 
-    public Contents[] getFRI_OPTION()
+    public Contents[] getFri_option()
     {
-        return FRI_OPTION;
+        return fri_option;
     }
 
-    public void setFRI_OPTION(Contents[] FRI_OPTION)
+    public void setFri_option(Contents[] fri_option)
     {
-        this.FRI_OPTION = FRI_OPTION;
+        this.fri_option = fri_option;
     }
 
-    public Contents[] getSAT_OPTION()
+    public Contents[] getSat_option()
     {
-        return SAT_OPTION;
+        return sat_option;
     }
 
-    public void setSAT_OPTION(Contents[] SAT_OPTION)
+    public void setSat_option(Contents[] sat_option)
     {
-        this.SAT_OPTION = SAT_OPTION;
+        this.sat_option = sat_option;
     }
 }

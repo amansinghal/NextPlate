@@ -9,6 +9,14 @@ import com.firebase.client.ValueEventListener;
 public class FirebaseConstants
 {
     public static String FIREBASE_URL = "https://padhaarosaa.firebaseio.com/";
+    public static String URL_CONTENTS = "contents";
+    public static String URL_SUN_OP = "sun_option";
+    public static String URL_MON_OP = "mon_option";
+    public static String URL_TUE_OP = "tue_option";
+    public static String URL_WED_OP = "wed_option";
+    public static String URL_THR_OP = "thr_option";
+    public static String URL_FRI_OP = "fri_option";
+    public static String URL_SAT_OP = "sat_option";
     static Firebase ref = new Firebase("https://padhaarosaa.firebaseio.com/");
 
     public static void onFacebookAccessTokenChange(AccessToken token, Firebase.AuthResultHandler authResultHandler)

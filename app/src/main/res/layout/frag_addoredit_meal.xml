@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:drawablePadding="10dp"
-            android:hint="Meal price"
+            android:hint="Meal price in INR"
             android:inputType="textEmailAddress"
             app:met_floatingLabel="highlight"
             app:met_primaryColor="@color/complement_color"/>

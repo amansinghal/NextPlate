@@ -102,6 +102,7 @@ public class MealsFragment extends BaseFragment implements ViewEventListener
     @Override
     public void onViewEvent(int i, Object o, int i1, View view)
     {
-        getFMTransection().replace(R.id.main_activity_container,AddOrEditMealFragment.getInstance(key+"/"+i1),AddOrEditMealFragment.TAG).addToBackStack(null).commit();
+        getFMTransection().replace(R.id.main_activity_container,AddOrEditMealFragment.getInstance(key+"/"+i1,((Meals)o).getName()),AddOrEditMealFragment.TAG).addToBackStack(
+                null).commit();
     }
 }

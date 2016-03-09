@@ -13,6 +13,7 @@ import com.nextplate.R;
 import com.nextplate.models.ContentListing;
 import com.nextplate.models.Contents;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import butterknife.Bind;
@@ -28,9 +29,11 @@ public class ContentListingItemView extends BindableLayout<ContentListing>
     @Bind(R.id.content_listing_tv_heading)
     TextView tvHeading;
     @Bind(R.id.content_listing_meal_btn_add_new)
-    Button btnAddNew;
+    ImageButton btnAddNew;
     @Bind(R.id.content_listing_meal_rv_meal_listing)
     RecyclerView rvListing;
+    @Bind(R.id.content_listing_meal_tv_no_option)
+    TextView tvNoOption;
 
     public ContentListingItemView(Context context)
     {
@@ -50,9 +53,20 @@ public class ContentListingItemView extends BindableLayout<ContentListing>
         tvHeading.setText(contents.getHeading());
         rvListing.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
+        btnAddNew.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                notifyItemAction(view.getId(), contents, view);
+            }
+        });
+
         if(contents.getContents() != null)
         {
-            SmartAdapter.items(Arrays.asList(contents.getContents())).map(Contents.class, ContentItemView.class)
+            tvNoOption.setVisibility(INVISIBLE);
+            SmartAdapter.items(Arrays.asList(contents.getContents()))
+                    .map(Contents.class, ContentItemView.class)
                     .listener(new ViewEventListener()
                     {
                         @Override
@@ -60,7 +74,20 @@ public class ContentListingItemView extends BindableLayout<ContentListing>
                         {
 
                         }
-                    }).into(rvListing);
+                    })
+                    .into(rvListing);
+        }
+        else
+        {
+            tvNoOption.setVisibility(VISIBLE);
+            SmartAdapter.items(new ArrayList<Contents>()).map(Contents.class, ContentItemView.class).listener(new ViewEventListener()
+            {
+                @Override
+                public void onViewEvent(int i, Object o, int i1, View view)
+                {
+
+                }
+            }).into(rvListing);
         }
     }
 }
