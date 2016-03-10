@@ -46,7 +46,7 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
     RecyclerMultiAdapter recyclerMultiAdapter;
     List<ContentListing> contentsList = new ArrayList<>();
 
-    public static Fragment getInstance(String path,String title)
+    public static Fragment getInstance(String path, String title)
     {
         AddOrEditMealFragment addOrEditMealFragment = new AddOrEditMealFragment();
         Bundle bundle = new Bundle();
@@ -60,15 +60,13 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
     public void onFragmentReady()
     {
         rvListing.setLayoutManager(new WrapContentLinearLayoutManager(activity));
-        recyclerMultiAdapter = SmartAdapter.items(contentsList)
-                .map(ContentListing.class, ContentListingItemView.class)
-                .listener(this)
+        recyclerMultiAdapter = SmartAdapter.items(contentsList).map(ContentListing.class, ContentListingItemView.class).listener(this)
                 .recyclerAdapter();
         rvListing.setAdapter(recyclerMultiAdapter);
         if(getArguments() != null)
         {
             getKeyPath = getArguments().getString(KEY_PATH, "");
-            setTitle(getArguments().getString(KEY_TITLE,"Meal"));
+            setTitle(getArguments().getString(KEY_TITLE, "Meal"));
         }
         final Firebase firebase = getFireBase().child(getKeyPath);
         showProgress();
@@ -157,6 +155,11 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
         {
             redirectAccordingToPos(i1);
         }
+
+        if(view.getId() == R.id.content_item_view_ivb_edit)
+        {
+            System.out.println(view.getTag());
+        }
     }
 
     private void redirectAccordingToPos(int pos)
@@ -191,7 +194,6 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
         }
         System.out.println(path);
         getFMTransection().replace(R.id.main_activity_container, ContentDetailFragment.getInstance(path), ContentDetailFragment.TAG)
-                .addToBackStack(null)
-                .commit();
+                .addToBackStack(null).commit();
     }
 }

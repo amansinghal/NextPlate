@@ -72,7 +72,11 @@ public class ContentListingItemView extends BindableLayout<ContentListing>
                         @Override
                         public void onViewEvent(int i, Object o, int i1, View view)
                         {
-
+                            view.setTag(i1);
+                            if(view.getId() == R.id.content_item_view_ivb_edit)
+                            {
+                                notifyItemAction(view.getId(),contents,view);
+                            }
                         }
                     })
                     .into(rvListing);
