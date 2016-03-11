@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.ColorMatrixColorFilter;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -43,6 +45,15 @@ public class ContentItemView extends BindableLayout<Contents>
     @Override
     public void bind(final Contents contents)
     {
+        setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                notifyItemAction(v.getId(), contents, v);
+            }
+        });
+
         ivb_edit.setOnClickListener(new OnClickListener()
         {
             @Override
@@ -51,6 +62,7 @@ public class ContentItemView extends BindableLayout<Contents>
                 notifyItemAction(view.getId(), contents, view);
             }
         });
+
         name.setText(contents.getName());
     }
 }

@@ -51,6 +51,7 @@ public class ContentListingItemView extends BindableLayout<ContentListing>
     public void bind(final ContentListing contents)
     {
         tvHeading.setText(contents.getHeading());
+
         rvListing.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         btnAddNew.setOnClickListener(new OnClickListener()

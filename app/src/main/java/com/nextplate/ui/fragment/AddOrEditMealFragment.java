@@ -2,7 +2,10 @@ package com.nextplate.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,6 +21,8 @@ import com.nextplate.models.ContentListing;
 import com.nextplate.models.Meals;
 import com.nextplate.ui.adapter_views.ContentListingItemView;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +64,10 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
     @Override
     public void onFragmentReady()
     {
+        //activity.registerForContextMenu(rvListing);
         rvListing.setLayoutManager(new WrapContentLinearLayoutManager(activity));
+        rvListing.setNestedScrollingEnabled(false);
+        rvListing.setHasFixedSize(true);
         recyclerMultiAdapter = SmartAdapter.items(contentsList).map(ContentListing.class, ContentListingItemView.class).listener(this)
                 .recyclerAdapter();
         rvListing.setAdapter(recyclerMultiAdapter);
@@ -153,16 +161,61 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
     {
         if(view.getId() == R.id.content_listing_meal_btn_add_new)
         {
-            redirectAccordingToPos(i1);
+            redirectAccordingToPos(i1,-1);
+        }
+
+        if(view.getId() == R.id.content_item_view_root)
+        {
+            //redirectAccordingToPos(i1);
         }
 
         if(view.getId() == R.id.content_item_view_ivb_edit)
         {
             System.out.println(view.getTag());
+            PopupMenu popup = new PopupMenu(activity, view);
+            popup.inflate(R.menu.menu_pop_up_edit_content);
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+            {
+                @Override
+                public boolean onMenuItemClick(MenuItem item)
+                {
+                    if(item.getItemId() == R.id.action_add_edit_content_edit)
+                    {
+
+                    }
+                    return true;
+                }
+            });
+            setForceShowIcon(popup);
+            popup.show();
         }
     }
 
-    private void redirectAccordingToPos(int pos)
+    public static void setForceShowIcon(PopupMenu popupMenu)
+    {
+        try
+        {
+            Field[] fields = popupMenu.getClass().getDeclaredFields();
+            for(Field field : fields)
+            {
+                if("mPopup".equals(field.getName()))
+                {
+                    field.setAccessible(true);
+                    Object menuPopupHelper = field.get(popupMenu);
+                    Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+                    Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
+                    setForceIcons.invoke(menuPopupHelper, true);
+                    break;
+                }
+            }
+        }
+        catch(Throwable e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void redirectAccordingToPos(int pos,int subpos)
     {
         String path = getKeyPath;
         switch(pos)
