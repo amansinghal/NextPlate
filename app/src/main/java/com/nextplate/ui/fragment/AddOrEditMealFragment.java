@@ -1,14 +1,16 @@
 package com.nextplate.ui.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import com.cocosw.bottomsheet.BottomSheet;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -18,12 +20,15 @@ import com.nextplate.core.fragment.BaseFragment;
 import com.nextplate.core.rest.FirebaseConstants;
 import com.nextplate.custom_views.WrapContentLinearLayoutManager;
 import com.nextplate.models.ContentListing;
+import com.nextplate.models.Contents;
 import com.nextplate.models.Meals;
 import com.nextplate.ui.adapter_views.ContentListingItemView;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -41,15 +46,17 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
     private String getKeyPath;
     private Meals meals;
     @Bind(R.id.frag_addoredit_meal_name)
-    TextView tvMealName;
+    MaterialEditText etMealName;
     @Bind(R.id.frag_addoredit_meal_description)
-    TextView tvMealDescription;
+    MaterialEditText etMealDescription;
     @Bind(R.id.frag_addoredit_meal_price)
-    TextView tvMealPrice;
+    MaterialEditText etMealPrice;
     @Bind(R.id.frag_addoredit_meal_rv_content_listing)
     RecyclerView rvListing;
     RecyclerMultiAdapter recyclerMultiAdapter;
     List<ContentListing> contentsList = new ArrayList<>();
+    private Firebase firebase;
+    private int currentClickedPosition = -1;
 
     public static Fragment getInstance(String path, String title)
     {
@@ -64,11 +71,17 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
     @Override
     public void onFragmentReady()
     {
+        setEmptyValidator(etMealDescription);
+        setEmptyValidator(etMealName);
+        setEmptyValidator(etMealPrice);
+        setHasOptionsMenu(true);
         //activity.registerForContextMenu(rvListing);
         rvListing.setLayoutManager(new WrapContentLinearLayoutManager(activity));
         rvListing.setNestedScrollingEnabled(false);
         rvListing.setHasFixedSize(true);
-        recyclerMultiAdapter = SmartAdapter.items(contentsList).map(ContentListing.class, ContentListingItemView.class).listener(this)
+        recyclerMultiAdapter = SmartAdapter.items(contentsList)
+                .map(ContentListing.class, ContentListingItemView.class)
+                .listener(this)
                 .recyclerAdapter();
         rvListing.setAdapter(recyclerMultiAdapter);
         if(getArguments() != null)
@@ -76,7 +89,7 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
             getKeyPath = getArguments().getString(KEY_PATH, "");
             setTitle(getArguments().getString(KEY_TITLE, "Meal"));
         }
-        final Firebase firebase = getFireBase().child(getKeyPath);
+        firebase = getFireBase().child(getKeyPath);
         showProgress();
         firebase.addValueEventListener(new ValueEventListener()
         {
@@ -89,6 +102,10 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
                 {
                     fillData();
                 }
+                else
+                {
+                    fillBankDictionary();
+                }
             }
 
             @Override
@@ -100,11 +117,49 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
         });
     }
 
+    private void fillBankDictionary()
+    {
+        ContentListing contentListing = new ContentListing();
+        contentListing.setHeading("Daily meals");
+        contentsList.add(contentListing);
+
+        contentListing = new ContentListing();
+        contentListing.setHeading("Sunday options");
+        contentsList.add(contentListing);
+
+        contentListing = new ContentListing();
+        contentListing.setHeading("Monday options");
+        contentsList.add(contentListing);
+
+        contentListing = new ContentListing();
+        contentListing.setHeading("Tuesday options");
+        contentsList.add(contentListing);
+
+        contentListing = new ContentListing();
+        contentListing.setHeading("Wednesday options");
+        contentsList.add(contentListing);
+
+        contentListing = new ContentListing();
+        contentListing.setHeading("Thursday options");
+        contentsList.add(contentListing);
+
+        contentListing = new ContentListing();
+        contentListing.setHeading("Friday options");
+        contentsList.add(contentListing);
+
+        contentListing = new ContentListing();
+        contentListing.setHeading("Saturday options");
+        contentsList.add(contentListing);
+
+        recyclerMultiAdapter.notifyDataSetChanged();
+    }
+
     private void fillData()
     {
-        tvMealName.setText(meals.getName());
-        tvMealPrice.setText("" + meals.getRupees());
-        tvMealDescription.setText(meals.getDescription());
+        setTitle(meals.getName());
+        etMealName.setText(meals.getName());
+        etMealPrice.setText("" + meals.getRupees());
+        etMealDescription.setText(meals.getDescription());
         contentsList.clear();
 
         ContentListing contentListing = new ContentListing();
@@ -157,22 +212,23 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
     }
 
     @Override
-    public void onViewEvent(int i, Object o, int i1, View view)
+    public void onViewEvent(int i, Object o, final int i1, final View view)
     {
+        currentClickedPosition = i1;
         if(view.getId() == R.id.content_listing_meal_btn_add_new)
         {
-            redirectAccordingToPos(i1,-1);
+            redirectAccordingToPos(i1, -1);
         }
 
         if(view.getId() == R.id.content_item_view_root)
         {
-            //redirectAccordingToPos(i1);
+            redirectAccordingToPos(i1, (int) view.getTag());
         }
 
         if(view.getId() == R.id.content_item_view_ivb_edit)
         {
             System.out.println(view.getTag());
-            PopupMenu popup = new PopupMenu(activity, view);
+           /* PopupMenu popup = new PopupMenu(activity, view);
             popup.inflate(R.menu.menu_pop_up_edit_content);
             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
             {
@@ -187,8 +243,89 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
                 }
             });
             setForceShowIcon(popup);
-            popup.show();
+            popup.show();*/
+
+            new BottomSheet.Builder(getActivity(), R.style.BottomSheet_Dialog).title("Options")
+                    // <-- important part
+                    .sheet(R.menu.menu_pop_up_edit_content).listener(new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    switch(which)
+                    {
+                        case R.id.action_add_edit_content_edit:
+                            redirectAccordingToPos(i1, (int) view.getTag());
+                            break;
+
+                        case R.id.action_add_edit_content_delete:
+                            deleteAccordingToPos(i1, (int) view.getTag());
+                            break;
+                    }
+                }
+            }).show();
         }
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu)
+    {
+        menu.findItem(R.id.action_add_save).setVisible(true);
+        super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if(item.getItemId() == R.id.action_add_save)
+        {
+            saveMeals(false);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void saveMeals(final boolean isForRedirectCall)
+    {
+        if(!etMealName.validate() || !etMealDescription.validate() || !etMealPrice.validate())
+        {
+            return;
+        }
+
+        int rupees = Integer.parseInt(etMealPrice.getTextCustom());
+
+        if(rupees <= 0)
+        {
+            etMealPrice.setError("Rupees must be greater than 0.");
+            return;
+        }
+
+        showProgress();
+
+        if(meals == null)
+        {
+            meals = new Meals();
+        }
+
+        meals.setName(etMealName.getTextCustom());
+        meals.setDescription(etMealDescription.getTextCustom());
+        meals.setRupees(rupees);
+
+        firebase.setValue(meals, new Firebase.CompletionListener()
+        {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase)
+            {
+                hideProgress();
+                if(firebaseError == null)
+                {
+                    Toast.makeText(activity, "Updated", Toast.LENGTH_LONG).show();
+                    if(isForRedirectCall)
+                    {
+                        redirectAccordingToPos(currentClickedPosition,-1);
+                    }
+                }
+            }
+        });
     }
 
     public static void setForceShowIcon(PopupMenu popupMenu)
@@ -215,7 +352,52 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
         }
     }
 
-    private void redirectAccordingToPos(int pos,int subpos)
+    private void redirectAccordingToPos(int pos, int subpos)
+    {
+        if(meals == null)
+        {
+            saveMeals(true);
+            return;
+        }
+        String path = getKeyPath;
+        switch(pos)
+        {
+            case 0:
+                path += "/" + FirebaseConstants.URL_CONTENTS;
+                break;
+            case 1:
+                path += "/" + FirebaseConstants.URL_SUN_OP;
+                break;
+            case 2:
+                path += "/" + FirebaseConstants.URL_MON_OP;
+                break;
+            case 3:
+                path += "/" + FirebaseConstants.URL_TUE_OP;
+                break;
+            case 4:
+                path += "/" + FirebaseConstants.URL_WED_OP;
+                break;
+            case 5:
+                path += "/" + FirebaseConstants.URL_THR_OP;
+                break;
+            case 6:
+                path += "/" + FirebaseConstants.URL_FRI_OP;
+                break;
+            case 7:
+                path += "/" + FirebaseConstants.URL_SAT_OP;
+                break;
+        }
+
+        //path = subpos == -1 ? path : path + "/" + subpos;
+
+        System.out.println(path);
+
+        getFMTransection().replace(R.id.main_activity_container, ContentDetailFragment.getInstance(path, subpos), ContentDetailFragment.TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void deleteAccordingToPos(int pos, int subpos)
     {
         String path = getKeyPath;
         switch(pos)
@@ -245,8 +427,32 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
                 path += "/" + FirebaseConstants.URL_SAT_OP;
                 break;
         }
+
+        //path = subpos == -1 ? path : path + "/" + subpos;
+
         System.out.println(path);
-        getFMTransection().replace(R.id.main_activity_container, ContentDetailFragment.getInstance(path), ContentDetailFragment.TAG)
-                .addToBackStack(null).commit();
+
+        ArrayList<Contents> contentses = new ArrayList<>(Arrays.asList(contentsList.get(pos).getContents()));
+
+        contentses.remove(subpos);
+
+        Contents[] contentses1 = contentses.toArray(new Contents[contentses.size()]);
+
+        contentsList.get(pos).setContents(contentses1);
+
+        showProgress();
+
+        getFireBase().child(path).setValue(contentsList.get(pos).getContents(), new Firebase.CompletionListener()
+        {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase)
+            {
+                hideProgress();
+                if(firebaseError == null)
+                {
+                    Toast.makeText(activity, "Updated", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 }

@@ -18,7 +18,7 @@
             android:layout_marginTop="10dp"
             android:drawablePadding="10dp"
             android:hint="Meal name"
-            android:inputType="textEmailAddress"
+            android:inputType="text"
             app:met_floatingLabel="highlight"
             app:met_primaryColor="@color/complement_color"/>
 
@@ -41,7 +41,7 @@
             android:layout_marginTop="10dp"
             android:drawablePadding="10dp"
             android:hint="Meal price in INR"
-            android:inputType="textEmailAddress"
+            android:inputType="number"
             app:met_floatingLabel="highlight"
             app:met_primaryColor="@color/complement_color"/>
 

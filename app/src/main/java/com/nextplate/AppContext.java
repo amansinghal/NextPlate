@@ -22,6 +22,7 @@ public class AppContext extends Application
     {
         super.onCreate();
         Firebase.setAndroidContext(this);
+        //Firebase.getDefaultConfig().setPersistenceEnabled(true);
         facebookHashKey();
         FacebookSdk.sdkInitialize(getApplicationContext());
     }

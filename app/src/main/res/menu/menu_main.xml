@@ -1,15 +1,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity">
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".MainActivity">
 
 
     <item
         android:id="@+id/action_add_meal"
+        android:icon="@drawable/ic_playlist_plus_grey600_36dp"
         android:orderInCategory="100"
         android:title="New Share"
         android:visible="false"
-        android:icon="@android:drawable/ic_menu_add"
-        app:showAsAction="always" />
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_add_save"
+        android:orderInCategory="100"
+        android:title="Save"
+        android:visible="false"
+        app:showAsAction="always"/>
+
 
 </menu>

@@ -2,6 +2,7 @@ package com.nextplate.ui.adapter_views;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.nextplate.R;
@@ -21,6 +22,8 @@ public class MealsItemView extends BindableLayout<Meals>
     TextView rupees;
     @Bind(R.id.meal_item_view_desc)
     TextView desc;
+    @Bind(R.id.meal_item_view_ivb_edit)
+    ImageButton ivbEdit;
 
     public MealsItemView(Context context)
     {
@@ -42,11 +45,21 @@ public class MealsItemView extends BindableLayout<Meals>
             @Override
             public void onClick(View view)
             {
-                notifyItemAction(view.getId(),meals,view);
+                notifyItemAction(view.getId(), meals, view);
             }
         });
+
+        ivbEdit.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                notifyItemAction(view.getId(), meals, view);
+            }
+        });
+
         name.setText(meals.getName());
-        rupees.setText(meals.getRupees()+"Rs.");
+        rupees.setText(meals.getRupees() + "Rs.");
         desc.setText(meals.getDescription());
     }
 }

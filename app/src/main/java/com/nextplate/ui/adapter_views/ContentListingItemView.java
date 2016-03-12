@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nextplate.R;
+import com.nextplate.custom_views.MyLinearLayoutManager;
 import com.nextplate.models.ContentListing;
 import com.nextplate.models.Contents;
 
@@ -66,21 +67,18 @@ public class ContentListingItemView extends BindableLayout<ContentListing>
         if(contents.getContents() != null)
         {
             tvNoOption.setVisibility(INVISIBLE);
-            SmartAdapter.items(Arrays.asList(contents.getContents()))
-                    .map(Contents.class, ContentItemView.class)
-                    .listener(new ViewEventListener()
+            SmartAdapter.items(Arrays.asList(contents.getContents())).map(Contents.class, ContentItemView.class).listener(new ViewEventListener()
+            {
+                @Override
+                public void onViewEvent(int i, Object o, int i1, View view)
+                {
+                    view.setTag(i1);
+                    if(view.getId() == R.id.content_item_view_ivb_edit)
                     {
-                        @Override
-                        public void onViewEvent(int i, Object o, int i1, View view)
-                        {
-                            view.setTag(i1);
-                            if(view.getId() == R.id.content_item_view_ivb_edit)
-                            {
-                                notifyItemAction(view.getId(),contents,view);
-                            }
-                        }
-                    })
-                    .into(rvListing);
+                        notifyItemAction(view.getId(), contents, view);
+                    }
+                }
+            }).into(rvListing);
         }
         else
         {

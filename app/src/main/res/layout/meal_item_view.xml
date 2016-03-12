@@ -52,5 +52,13 @@
                 android:textSize="@dimen/text_size_15"
                 />
         </LinearLayout>
+        <ImageButton
+            android:id="@+id/meal_item_view_ivb_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:background="?attr/selectableItemBackground"
+            android:src="@drawable/ic_dots_vertical_black_24dp"/>
+
     </LinearLayout>
 </FrameLayout>

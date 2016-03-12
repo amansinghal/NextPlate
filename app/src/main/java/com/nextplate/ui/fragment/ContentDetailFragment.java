@@ -15,6 +15,8 @@ import com.nextplate.models.Contents;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.METValidator;
 
+import java.util.ArrayList;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 /**
@@ -24,18 +26,21 @@ public class ContentDetailFragment extends BaseFragment
 {
 
     private static final String KEY_PATH = "key_path";
+    private static final String KEY_POSITION = "key_position";
     public static final String TAG = "ContentDetailFragment";
     @Bind(R.id.frag_content_details_et_name)
     MaterialEditText materialEditText;
     private String getKeyPath;
-    private int count = 0;
+    private int count = 0, position = 0;
     private Firebase firebase;
+    ArrayList<Contents> contentses = new ArrayList<>();
 
-    public static Fragment getInstance(String path)
+    public static Fragment getInstance(String path, int position)
     {
         ContentDetailFragment contentDetailFragment = new ContentDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString(ContentDetailFragment.KEY_PATH, path);
+        bundle.putInt(ContentDetailFragment.KEY_POSITION, position);
         contentDetailFragment.setArguments(bundle);
         return contentDetailFragment;
     }
@@ -57,6 +62,7 @@ public class ContentDetailFragment extends BaseFragment
         if(getArguments() != null)
         {
             getKeyPath = getArguments().getString(KEY_PATH, "");
+            position = getArguments().getInt(KEY_POSITION, -1);
         }
         firebase = getFireBase().child(getKeyPath);
         firebase.addValueEventListener(new ValueEventListener()
@@ -67,7 +73,16 @@ public class ContentDetailFragment extends BaseFragment
                 System.out.println(dataSnapshot);
                 if(dataSnapshot.getValue() != null)
                 {
-                    count = (int) dataSnapshot.getChildrenCount();
+                    for(DataSnapshot postSnapshot : dataSnapshot.getChildren())
+                    {
+                        contentses.add(postSnapshot.getValue(Contents.class));
+                        count++;
+                    }
+
+                    if(!contentses.isEmpty())
+                    {
+                        fillData();
+                    }
                 }
             }
 
@@ -94,7 +109,7 @@ public class ContentDetailFragment extends BaseFragment
             Contents contents = new Contents();
             contents.setName(materialEditText.getTextCustom());
             contents.setImageUrl("");
-            firebase.child("/" + count).setValue(contents, new Firebase.CompletionListener()
+            firebase.child("/" + (position == -1 ? count : position)).setValue(contents, new Firebase.CompletionListener()
             {
                 @Override
                 public void onComplete(FirebaseError firebaseError, Firebase firebase)
@@ -108,5 +123,14 @@ public class ContentDetailFragment extends BaseFragment
                 }
             });
         }
+    }
+
+    private void fillData()
+    {
+        if(position == -1)
+        {
+            return;
+        }
+        materialEditText.setText(contentses.get(position).getName());
     }
 }

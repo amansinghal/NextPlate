@@ -1,5 +1,6 @@
 package com.nextplate.ui.fragment;
 
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.cocosw.bottomsheet.BottomSheet;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -94,15 +96,59 @@ public class MealsFragment extends BaseFragment implements ViewEventListener
     {
         if(item.getItemId() == R.id.action_add_meal)
         {
-
+            getFMTransection().replace(R.id.main_activity_container,
+                                       AddOrEditMealFragment.getInstance(key + "/" + mealsList.size(), "New meal"),
+                                       AddOrEditMealFragment.TAG).addToBackStack(null).commit();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onViewEvent(int i, Object o, int i1, View view)
+    public void onViewEvent(int i, final Object o, final int i1, final View view)
     {
-        getFMTransection().replace(R.id.main_activity_container,AddOrEditMealFragment.getInstance(key+"/"+i1,((Meals)o).getName()),AddOrEditMealFragment.TAG).addToBackStack(
-                null).commit();
+        if(view.getId() == R.id.meal_item_view_ivb_edit)
+        {
+            new BottomSheet.Builder(getActivity(), R.style.BottomSheet_Dialog).title("Options")
+                    // <-- important part
+                    .sheet(R.menu.menu_pop_up_edit_content).listener(new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    switch(which)
+                    {
+                        case R.id.action_add_edit_content_edit:
+                            getFMTransection().replace(R.id.main_activity_container,
+                                                       AddOrEditMealFragment.getInstance(key + "/" + i1, ((Meals) o).getName()),
+                                                       AddOrEditMealFragment.TAG).addToBackStack(null).commit();
+                            break;
+
+                        case R.id.action_add_edit_content_delete:
+                            deleteMeal(i1);
+                            break;
+                    }
+                }
+            }).show();
+            return;
+        }
+        getFMTransection().replace(R.id.main_activity_container, AddOrEditMealFragment.getInstance(key + "/" + i1, ((Meals) o).getName()),
+                                   AddOrEditMealFragment.TAG).addToBackStack(null).commit();
+    }
+
+    public void deleteMeal(int position)
+    {
+        mealsList.remove(position);
+        showProgress();
+        firebase.setValue(mealsList, new Firebase.CompletionListener()
+        {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase)
+            {
+                if(firebaseError == null)
+                {
+                    Toast("Updated");
+                }
+            }
+        });
     }
 }
