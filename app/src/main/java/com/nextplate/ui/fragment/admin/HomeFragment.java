@@ -1,4 +1,4 @@
-package com.nextplate.ui.fragment;
+package com.nextplate.ui.fragment.admin;
 
 import com.nextplate.R;
 import com.nextplate.core.fragment.BaseFragment;

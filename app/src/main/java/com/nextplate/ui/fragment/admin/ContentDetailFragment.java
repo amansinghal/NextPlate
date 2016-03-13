@@ -1,4 +1,4 @@
-package com.nextplate.ui.fragment;
+package com.nextplate.ui.fragment.admin;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

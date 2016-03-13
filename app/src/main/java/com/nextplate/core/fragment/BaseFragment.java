@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 import com.nextplate.core.activity.BaseActivity;
+import com.nextplate.core.preference.Prefrences;
 import com.nextplate.core.rest.FirebaseConstants;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.METValidator;
@@ -111,6 +112,11 @@ public abstract class BaseFragment extends Fragment
                 return !isEmpty;
             }
         });
+    }
+
+    public boolean isClient()
+    {
+        return Prefrences.getReadInstance(activity).getBoolean(Prefrences.IS_CLIENT,false);
     }
 
     public void Toast(String text)

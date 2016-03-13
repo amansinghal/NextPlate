@@ -10,6 +10,7 @@ public class FirebaseConstants
 {
     public static String FIREBASE_URL = "https://padhaarosaa.firebaseio.com/";
     public static String URL_CONTENTS = "contents";
+    public static String URL_USERS = "users";
     public static String URL_SUN_OP = "sun_option";
     public static String URL_MON_OP = "mon_option";
     public static String URL_TUE_OP = "tue_option";

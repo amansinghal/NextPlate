@@ -1,4 +1,4 @@
-package com.nextplate.ui.fragment;
+package com.nextplate.ui.fragment.admin;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -306,8 +306,12 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
             meals = new Meals();
         }
 
+        meals.setId(meals.getContents() == null ? 0 : meals.getContents().length);
+
         meals.setName(etMealName.getTextCustom());
+
         meals.setDescription(etMealDescription.getTextCustom());
+
         meals.setRupees(rupees);
 
         firebase.setValue(meals, new Firebase.CompletionListener()
@@ -321,7 +325,7 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
                     Toast.makeText(activity, "Updated", Toast.LENGTH_LONG).show();
                     if(isForRedirectCall)
                     {
-                        redirectAccordingToPos(currentClickedPosition,-1);
+                        redirectAccordingToPos(currentClickedPosition, -1);
                     }
                 }
             }

@@ -12,6 +12,7 @@ import com.google.gson.GsonBuilder;
 public class Prefrences
 {
 
+    public static final String IS_CLIENT = "is_client";
     public static String PREF_KEY = "PREF_KEY";
     public static String PREF_IS_LOGGED_IN = "PREF_IS_LOGGED_IN";
     public static String PREF_UID = "PREF_UID";

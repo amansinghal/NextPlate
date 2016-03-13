@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.facebook.FacebookSdk;
 import com.firebase.client.Firebase;
+import com.nextplate.core.preference.Prefrences;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -25,6 +26,8 @@ public class AppContext extends Application
         //Firebase.getDefaultConfig().setPersistenceEnabled(true);
         facebookHashKey();
         FacebookSdk.sdkInitialize(getApplicationContext());
+        //To move to admin department please put the boolean false
+        Prefrences.getWriteInstance(this).putBoolean(Prefrences.IS_CLIENT,true);
     }
 
     private void facebookHashKey()

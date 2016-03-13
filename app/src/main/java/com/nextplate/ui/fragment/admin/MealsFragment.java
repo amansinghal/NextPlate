@@ -1,4 +1,4 @@
-package com.nextplate.ui.fragment;
+package com.nextplate.ui.fragment.admin;
 
 import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
