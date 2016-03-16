@@ -66,13 +66,14 @@ public class MealsItemViewClient extends BindableLayout<Meals>
         ArrayList<String> arrayList = new ArrayList<>();
         for(int i = 0; i < contentses.length; i++)
         {
-            if(i <= 3)
+            if(i < 3)
             {
                 arrayList.add(contentses[i].getName());
             }
             else
             {
                 arrayList.add("and More");
+                break;
             }
         }
         return arrayList;
