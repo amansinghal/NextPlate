@@ -16,7 +16,7 @@ import com.firebase.client.ValueEventListener;
 import com.nextplate.R;
 import com.nextplate.core.fragment.BaseFragment;
 import com.nextplate.models.Meals;
-import com.nextplate.ui.adapter_views.MealsItemView;
+import com.nextplate.ui.adapter_views.admin.MealsItemView;
 
 import java.util.ArrayList;
 import java.util.List;

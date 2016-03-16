@@ -1,16 +1,13 @@
-package com.nextplate.ui.adapter_views;
+package com.nextplate.ui.adapter_views.admin;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nextplate.R;
-import com.nextplate.custom_views.MyLinearLayoutManager;
 import com.nextplate.models.ContentListing;
 import com.nextplate.models.Contents;
 

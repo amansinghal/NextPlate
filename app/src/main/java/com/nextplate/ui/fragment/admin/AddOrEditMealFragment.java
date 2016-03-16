@@ -22,7 +22,7 @@ import com.nextplate.custom_views.WrapContentLinearLayoutManager;
 import com.nextplate.models.ContentListing;
 import com.nextplate.models.Contents;
 import com.nextplate.models.Meals;
-import com.nextplate.ui.adapter_views.ContentListingItemView;
+import com.nextplate.ui.adapter_views.admin.ContentListingItemView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.lang.reflect.Field;

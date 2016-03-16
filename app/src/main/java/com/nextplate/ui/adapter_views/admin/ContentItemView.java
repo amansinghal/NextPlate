@@ -1,4 +1,4 @@
-package com.nextplate.ui.adapter_views;
+package com.nextplate.ui.adapter_views.admin;
 
 import android.content.Context;
 import android.graphics.Color;
