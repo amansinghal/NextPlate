@@ -5,7 +5,7 @@ import android.view.MenuItem;
 
 import com.nextplate.R;
 import com.nextplate.core.activity.BaseActivity;
-import com.nextplate.ui.fragment.client.HomeFragment;
+import com.nextplate.ui.fragment.admin.HomeFragment;
 /**
  * Created by AmaN on 3/8/2016.
  */

@@ -51,6 +51,10 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
     MaterialEditText etMealDescription;
     @Bind(R.id.frag_addoredit_meal_price)
     MaterialEditText etMealPrice;
+    @Bind(R.id.frag_addoredit_meal_price_package)
+    MaterialEditText etMealPricePackage;
+    @Bind(R.id.frag_addoredit_meal_days_package)
+    MaterialEditText etDaysPackage;
     @Bind(R.id.frag_addoredit_meal_rv_content_listing)
     RecyclerView rvListing;
     RecyclerMultiAdapter recyclerMultiAdapter;
@@ -74,6 +78,8 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
         setEmptyValidator(etMealDescription);
         setEmptyValidator(etMealName);
         setEmptyValidator(etMealPrice);
+        setEmptyValidator(etDaysPackage);
+        setEmptyValidator(etMealPricePackage);
         setHasOptionsMenu(true);
         //activity.registerForContextMenu(rvListing);
         rvListing.setLayoutManager(new WrapContentLinearLayoutManager(activity));
@@ -160,6 +166,8 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
         etMealName.setText(meals.getName());
         etMealPrice.setText("" + meals.getRupees());
         etMealDescription.setText(meals.getDescription());
+        etMealPricePackage.setText(""+meals.getPackagePrice());
+        etDaysPackage.setText(""+meals.getPackageDays());
         contentsList.clear();
 
         ContentListing contentListing = new ContentListing();
@@ -286,7 +294,8 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
 
     public void saveMeals(final boolean isForRedirectCall)
     {
-        if(!etMealName.validate() || !etMealDescription.validate() || !etMealPrice.validate())
+        if(!etMealName.validate() || !etMealDescription.validate() || !etMealPrice.validate() || !etDaysPackage.validate() || !etMealPricePackage
+                .validate())
         {
             return;
         }
@@ -311,6 +320,10 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
         meals.setName(etMealName.getTextCustom());
 
         meals.setDescription(etMealDescription.getTextCustom());
+
+        meals.setPackageDays(Integer.parseInt(etDaysPackage.getTextCustom()));
+
+        meals.setPackagePrice(Integer.parseInt(etMealPricePackage.getTextCustom()));
 
         meals.setRupees(rupees);
 

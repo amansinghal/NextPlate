@@ -3,6 +3,8 @@ package com.nextplate.ui.fragment.admin;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
@@ -30,6 +32,14 @@ public class ContentDetailFragment extends BaseFragment
     public static final String TAG = "ContentDetailFragment";
     @Bind(R.id.frag_content_details_et_name)
     MaterialEditText materialEditText;
+    @Bind(R.id.frag_content_details_ll_extra_container)
+    LinearLayout llExtraContainer;
+    @Bind(R.id.frag_content_details_et_price)
+    MaterialEditText etPrice;
+    @Bind(R.id.frag_content_details_et_from_time)
+    MaterialEditText etTimeFrom;
+    @Bind(R.id.frag_content_details_et_to_time)
+    MaterialEditText etTimeTo;
     private String getKeyPath;
     private int count = 0, position = 0;
     private Firebase firebase;
@@ -49,21 +59,18 @@ public class ContentDetailFragment extends BaseFragment
     public void onFragmentReady()
     {
         setTitle("Details");
-        materialEditText.addValidator(new METValidator("Must not empty")
-        {
-            @Override
-            public boolean isValid(
-                    @NonNull
-                    CharSequence text, boolean isEmpty)
-            {
-                return !isEmpty;
-            }
-        });
+        setEmptyValidator(materialEditText);
         if(getArguments() != null)
         {
             getKeyPath = getArguments().getString(KEY_PATH, "");
             position = getArguments().getInt(KEY_POSITION, -1);
         }
+
+        if(getKeyPath.contains("meals"))
+        {
+            llExtraContainer.setVisibility(View.GONE);
+        }
+
         firebase = getFireBase().child(getKeyPath);
         firebase.addValueEventListener(new ValueEventListener()
         {
@@ -73,15 +80,18 @@ public class ContentDetailFragment extends BaseFragment
                 System.out.println(dataSnapshot);
                 if(dataSnapshot.getValue() != null)
                 {
-                    for(DataSnapshot postSnapshot : dataSnapshot.getChildren())
+                    if(dataSnapshot.hasChildren())
                     {
-                        contentses.add(postSnapshot.getValue(Contents.class));
-                        count++;
-                    }
+                        for(DataSnapshot postSnapshot : dataSnapshot.getChildren())
+                        {
+                            contentses.add(postSnapshot.getValue(Contents.class));
+                            count++;
+                        }
 
-                    if(!contentses.isEmpty())
-                    {
-                        fillData();
+                        if(!contentses.isEmpty())
+                        {
+                            fillData();
+                        }
                     }
                 }
             }

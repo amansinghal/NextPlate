@@ -42,9 +42,56 @@
         android:layout_marginTop="10dp"
         android:drawablePadding="10dp"
         android:hint="Option Name"
-        android:inputType="textEmailAddress"
+        android:inputType="text"
         app:met_floatingLabel="highlight"
         app:met_primaryColor="@color/complement_color"/>
+
+    <LinearLayout
+        android:id="@+id/frag_content_details_ll_extra_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/frag_content_details_et_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:drawablePadding="10dp"
+            android:hint="@string/price"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/complement_color"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/frag_content_details_et_from_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="10dp"
+                android:focusableInTouchMode="false"
+                android:hint="@string/time_from"
+                app:met_floatingLabel="highlight"
+                app:met_primaryColor="@color/complement_color"/>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/frag_content_details_et_to_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="10dp"
+                android:focusableInTouchMode="false"
+                android:hint="@string/time_to"
+                app:met_floatingLabel="highlight"
+                app:met_primaryColor="@color/complement_color"/>
+
+        </LinearLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

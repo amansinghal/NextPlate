@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">NextPlate</string>
     <string name="facebook_app_id">547424835439049</string>
+    <string name="al_a_carte">Al-a-Carte</string>
+    <string name="time_from">Timing(From)</string>
+    <string name="time_to">Timing (To)</string>
+    <string name="price">Price</string>
 </resources>

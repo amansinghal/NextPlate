@@ -13,9 +13,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_orange_light"
-            android:paddingBottom="20dp"
+            android:paddingBottom="15dp"
             android:paddingLeft="10dp"
-            android:paddingTop="20dp"
+            android:paddingTop="15dp"
             android:text="Meals"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_20"/>
@@ -23,6 +23,23 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/frag_home_client_rv_listing"
             android:layout_width="match_parent"
-            android:layout_height="230dp"/>
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_orange_light"
+            android:paddingBottom="15dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="15dp"
+            android:text="@string/al_a_carte"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_20"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/frag_home_client_rv_listing_al_a_carte"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 </ScrollView>

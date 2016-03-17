@@ -8,6 +8,8 @@ public class Meals
     int id;
     String name;
     int rupees;
+    int packagePrice = 0;
+    int packageDays=0;
     String description;
     Contents[] contents;
     Contents[] sun_option;
@@ -17,6 +19,26 @@ public class Meals
     Contents[] thr_option;
     Contents[] fri_option;
     Contents[] sat_option;
+
+    public int getPackagePrice()
+    {
+        return packagePrice;
+    }
+
+    public void setPackagePrice(int packagePrice)
+    {
+        this.packagePrice = packagePrice;
+    }
+
+    public int getPackageDays()
+    {
+        return packageDays;
+    }
+
+    public void setPackageDays(int packageDays)
+    {
+        this.packageDays = packageDays;
+    }
 
     public String getDescription()
     {

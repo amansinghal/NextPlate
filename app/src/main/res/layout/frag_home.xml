@@ -20,6 +20,15 @@
             android:text="Meals"/>
 
         <Button
+            android:id="@+id/frag_home_al_a_carte"
+            style="@style/button_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/al_a_carte"/>
+
+
+        <Button
             android:id="@+id/frag_home_orders"
             style="@style/button_2"
             android:layout_width="match_parent"

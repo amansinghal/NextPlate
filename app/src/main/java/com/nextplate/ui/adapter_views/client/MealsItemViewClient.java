@@ -26,6 +26,8 @@ public class MealsItemViewClient extends BindableLayout<Meals>
     TextView name;
     @Bind(R.id.meal_item_view_client_tv_meal_rupees)
     TextView rupees;
+    @Bind(R.id.meal_item_view_client_tv_meal_pack_rupees)
+    TextView tvPackageDetails;
     @Bind(R.id.meal_item_view_client_lv_listing)
     ListView lvShowCase;
 
@@ -55,10 +57,24 @@ public class MealsItemViewClient extends BindableLayout<Meals>
         });
 
         name.setText(meals.getName());
-        rupees.setText(meals.getRupees() + " Rs.");
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.simple_list_item_1,
-                                                                     getShowCaseItem(meals.getContents()));
-        lvShowCase.setAdapter(arrayAdapter);
+        rupees.setText("Single meal at " + meals.getRupees() + " Rs.");
+
+        if(meals.getPackageDays() > 0)
+        {
+            tvPackageDetails.setVisibility(VISIBLE);
+            tvPackageDetails.setText(meals.getPackageDays() + " Meals at " + meals.getPackagePrice() + " Rs.");
+        }
+        else
+        {
+            tvPackageDetails.setVisibility(GONE);
+        }
+
+        if(meals.getContents() != null)
+        {
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.simple_list_item_1,
+                                                                         getShowCaseItem(meals.getContents()));
+            lvShowCase.setAdapter(arrayAdapter);
+        }
     }
 
     private ArrayList<String> getShowCaseItem(Contents[] contentses)
