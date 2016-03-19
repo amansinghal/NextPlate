@@ -2,6 +2,7 @@ package com.nextplate.ui.fragment.admin;
 
 import com.nextplate.R;
 import com.nextplate.core.fragment.BaseFragment;
+import com.nextplate.ui.adapter_views.admin.AlACarteFragment;
 
 import butterknife.OnClick;
 /**
@@ -32,6 +33,15 @@ public class HomeFragment extends BaseFragment
     @OnClick(R.id.frag_home_orders)
     protected void onClickOrders()
     {
+
+    }
+
+    @OnClick(R.id.frag_home_al_a_carte)
+    protected void onClickAlaCarte()
+    {
+        getFMTransection().replace(R.id.main_activity_container, AlACarteFragment.getInstance(), AlACarteFragment.TAG)
+                .addToBackStack(null)
+                .commit();
 
     }
 }

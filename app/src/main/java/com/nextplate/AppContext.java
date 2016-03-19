@@ -23,11 +23,11 @@ public class AppContext extends Application
     {
         super.onCreate();
         Firebase.setAndroidContext(this);
-        Firebase.getDefaultConfig().setPersistenceEnabled(true);
+        //Firebase.getDefaultConfig().setPersistenceEnabled(true);
         facebookHashKey();
         FacebookSdk.sdkInitialize(getApplicationContext());
         //To move to admin department please put the boolean false
-        Prefrences.getWriteInstance(this).putBoolean(Prefrences.IS_CLIENT,true);
+        Prefrences.getWriteInstance(this).putBoolean(Prefrences.IS_CLIENT,true).commit();
     }
 
     private void facebookHashKey()

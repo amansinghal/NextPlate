@@ -1,10 +1,12 @@
 package com.nextplate.ui.fragment.admin;
 
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
@@ -13,11 +15,17 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.nextplate.R;
 import com.nextplate.core.fragment.BaseFragment;
+import com.nextplate.core.fragment.TimePickerFragment;
+import com.nextplate.core.util.Utility;
+import com.nextplate.models.AlACarte;
 import com.nextplate.models.Contents;
+import com.nextplate.ui.adapter_views.admin.AlACarteFragment;
+import com.nextplate.ui.adapter_views.admin.AlaCarteItemView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.METValidator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -26,7 +34,6 @@ import butterknife.OnClick;
  */
 public class ContentDetailFragment extends BaseFragment
 {
-
     private static final String KEY_PATH = "key_path";
     private static final String KEY_POSITION = "key_position";
     public static final String TAG = "ContentDetailFragment";
@@ -44,6 +51,8 @@ public class ContentDetailFragment extends BaseFragment
     private int count = 0, position = 0;
     private Firebase firebase;
     ArrayList<Contents> contentses = new ArrayList<>();
+    boolean isCallForAlaCarte;
+    private List<AlACarte> contentAlacarte = new ArrayList<>();
 
     public static Fragment getInstance(String path, int position)
     {
@@ -60,15 +69,21 @@ public class ContentDetailFragment extends BaseFragment
     {
         setTitle("Details");
         setEmptyValidator(materialEditText);
+
         if(getArguments() != null)
         {
             getKeyPath = getArguments().getString(KEY_PATH, "");
             position = getArguments().getInt(KEY_POSITION, -1);
         }
 
-        if(getKeyPath.contains("meals"))
+        isCallForAlaCarte = getKeyPath.contains(AlACarteFragment.KEY);
+
+        if(isCallForAlaCarte)
         {
-            llExtraContainer.setVisibility(View.GONE);
+            llExtraContainer.setVisibility(View.VISIBLE);
+            setEmptyValidator(etPrice);
+            setEmptyValidator(etTimeFrom);
+            setEmptyValidator(etTimeTo);
         }
 
         firebase = getFireBase().child(getKeyPath);
@@ -80,18 +95,26 @@ public class ContentDetailFragment extends BaseFragment
                 System.out.println(dataSnapshot);
                 if(dataSnapshot.getValue() != null)
                 {
-                    if(dataSnapshot.hasChildren())
+                    for(DataSnapshot postSnapshot : dataSnapshot.getChildren())
                     {
-                        for(DataSnapshot postSnapshot : dataSnapshot.getChildren())
+                        if(isCallForAlaCarte)
+                        {
+                            contentAlacarte.add(postSnapshot.getValue(AlACarte.class));
+                        }
+                        else
                         {
                             contentses.add(postSnapshot.getValue(Contents.class));
-                            count++;
                         }
+                        count++;
+                    }
 
-                        if(!contentses.isEmpty())
-                        {
-                            fillData();
-                        }
+                    if(!contentAlacarte.isEmpty() && isCallForAlaCarte)
+                    {
+                        fillDataForAlacarte();
+                    }
+                    else
+                    {
+                        fillData();
                     }
                 }
             }
@@ -104,6 +127,18 @@ public class ContentDetailFragment extends BaseFragment
         });
     }
 
+    private void fillDataForAlacarte()
+    {
+        if(position == -1)
+        {
+            return;
+        }
+        materialEditText.setText(contentAlacarte.get(position).getName());
+        etPrice.setText(""+contentAlacarte.get(position).getPrice());
+        etTimeFrom.setText(contentAlacarte.get(position).getFromTime());
+        etTimeTo.setText(contentAlacarte.get(position).getToTime());
+    }
+
     @Override
     public int getFragmentLayout()
     {
@@ -113,26 +148,78 @@ public class ContentDetailFragment extends BaseFragment
     @OnClick(R.id.frag_content_details_btn_save)
     public void saveContents()
     {
-        if(materialEditText.validate())
+        if(materialEditText.validate() && etTimeFrom.validate() && etTimeTo.validate() && etPrice.validate())
         {
             showProgress();
-            Contents contents = new Contents();
-            contents.setName(materialEditText.getTextCustom());
-            contents.setImageUrl("");
-            firebase.child("/" + (position == -1 ? count : position)).setValue(contents, new Firebase.CompletionListener()
+
+            if(!isCallForAlaCarte)
             {
-                @Override
-                public void onComplete(FirebaseError firebaseError, Firebase firebase)
+                Contents contents = new Contents();
+                contents.setName(materialEditText.getTextCustom());
+                contents.setImageUrl("");
+                firebase.child("/" + (position == -1 ? count : position)).setValue(contents, new Firebase.CompletionListener()
                 {
-                    hideProgress();
-                    if(firebaseError == null)
+                    @Override
+                    public void onComplete(FirebaseError firebaseError, Firebase firebase)
                     {
-                        Toast.makeText(activity, "Updated", Toast.LENGTH_LONG).show();
-                        getFragmentManager().popBackStack();
+                        hideProgress();
+                        if(firebaseError == null)
+                        {
+                            Toast.makeText(activity, "Updated", Toast.LENGTH_LONG).show();
+                            getFragmentManager().popBackStack();
+                        }
                     }
-                }
-            });
+                });
+            }
+            else
+            {
+                AlACarte alACarte = new AlACarte();
+                alACarte.setName(materialEditText.getTextCustom());
+                alACarte.setImageUrl("");
+                alACarte.setPrice(etPrice.getTextAsInt());
+                alACarte.setFromTime(etTimeFrom.getTextCustom());
+                alACarte.setToTime(etTimeTo.getTextCustom());
+                firebase.child("/" + (position == -1 ? count : position)).setValue(alACarte, new Firebase.CompletionListener()
+                {
+                    @Override
+                    public void onComplete(FirebaseError firebaseError, Firebase firebase)
+                    {
+                        hideProgress();
+                        if(firebaseError == null)
+                        {
+                            Toast.makeText(activity, "Updated", Toast.LENGTH_LONG).show();
+                            getFragmentManager().popBackStack();
+                        }
+                    }
+                });
+            }
         }
+    }
+
+    @OnClick(R.id.frag_content_details_et_from_time)
+    public void fromTime()
+    {
+        Utility.timePicker(activity, new TimePickerDialog.OnTimeSetListener()
+        {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int i, int i1)
+            {
+                etTimeFrom.setText(i + ":" + i1);
+            }
+        }, "From time");
+    }
+
+    @OnClick(R.id.frag_content_details_et_to_time)
+    public void toTime()
+    {
+        Utility.timePicker(activity, new TimePickerDialog.OnTimeSetListener()
+        {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int i, int i1)
+            {
+                etTimeTo.setText(i + ":" + i1);
+            }
+        }, "To time");
     }
 
     private void fillData()

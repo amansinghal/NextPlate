@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.cocosw.bottomsheet.BottomSheet;
 import com.firebase.client.DataSnapshot;
@@ -18,7 +19,9 @@ import com.nextplate.core.fragment.BaseFragment;
 import com.nextplate.models.AlACarte;
 import com.nextplate.models.Meals;
 import com.nextplate.ui.fragment.admin.AddOrEditMealFragment;
+import com.nextplate.ui.fragment.admin.ContentDetailFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -31,18 +34,21 @@ import io.nlopez.smartadapters.utils.ViewEventListener;
 public class AlACarteFragment extends BaseFragment implements ViewEventListener
 {
 
+    public static final String TAG = "AlACarteFragment";
     private RecyclerMultiAdapter recyclerMultiAdapter;
     private Firebase firebase;
-    public final String key = "al_a_carte";
-    private List<AlACarte> alacarteList;
+    public static final String KEY = "al_a_carte";
+    private List<AlACarte> alacarteList = new ArrayList<>();
 
-    public Fragment getInstance()
+    public static Fragment getInstance()
     {
         return new AlACarteFragment();
     }
 
     @Bind(R.id.frag_al_a_carte_rv_listing)
     RecyclerView rvListing;
+    @Bind(R.id.frag_al_a_carte_tv_empty_items)
+    TextView tvEmpty;
 
     @Override
     public void onFragmentReady()
@@ -56,7 +62,7 @@ public class AlACarteFragment extends BaseFragment implements ViewEventListener
         setTitle("Al-a-Carte");
         setHasOptionsMenu(true);
         showProgress();
-        firebase = getFireBase().child(key);
+        firebase = getFireBase().child(KEY);
         firebase.addValueEventListener(new ValueEventListener()
         {
             @Override
@@ -70,6 +76,15 @@ public class AlACarteFragment extends BaseFragment implements ViewEventListener
                     alacarteList.add(alACarte);
                     recyclerMultiAdapter.notifyDataSetChanged();
                     System.out.println(alACarte.getPrice() + " - " + alACarte.getName());
+                }
+
+                if(alacarteList.isEmpty())
+                {
+                    tvEmpty.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    tvEmpty.setVisibility(View.GONE);
                 }
             }
 
@@ -99,7 +114,9 @@ public class AlACarteFragment extends BaseFragment implements ViewEventListener
     {
         if(item.getItemId() == R.id.action_add_meal)
         {
-
+            getFMTransection().replace(R.id.main_activity_container, ContentDetailFragment.getInstance(KEY, -1), ContentDetailFragment.TAG)
+                    .addToBackStack(null)
+                    .commit();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -120,8 +137,8 @@ public class AlACarteFragment extends BaseFragment implements ViewEventListener
                             {
                                 case R.id.action_add_edit_content_edit:
                                     getFMTransection().replace(R.id.main_activity_container,
-                                                               AddOrEditMealFragment.getInstance(key + "/" + i1, ((AlACarte) o).getName()),
-                                                               AddOrEditMealFragment.TAG).addToBackStack(null).commit();
+                                                               ContentDetailFragment.getInstance(KEY, i1),
+                                                               ContentDetailFragment.TAG).addToBackStack(null).commit();
                                     break;
 
                                 case R.id.action_add_edit_content_delete:
@@ -133,7 +150,7 @@ public class AlACarteFragment extends BaseFragment implements ViewEventListener
                     .show();
             return;
         }
-        getFMTransection().replace(R.id.main_activity_container, AddOrEditMealFragment.getInstance(key + "/" + i1, ((Meals) o).getName()),
+        getFMTransection().replace(R.id.main_activity_container, AddOrEditMealFragment.getInstance(KEY + "/" + i1, ((Meals) o).getName()),
                                    AddOrEditMealFragment.TAG).addToBackStack(null).commit();
     }
 

@@ -165,7 +165,7 @@ public class Utility
         timePickerFragment.setArguments(args);
 
         timePickerFragment.setCallBack(ondate);
-        timePickerFragment.show(((BaseActivity) context).getSupportFragmentManager(), "Date Picker");
+        timePickerFragment.show(((BaseActivity) context).getSupportFragmentManager(), "Time Picker");
     }
 
     public static void datePicker(Context context, DatePickerDialog.OnDateSetListener ondate, int minDate)
