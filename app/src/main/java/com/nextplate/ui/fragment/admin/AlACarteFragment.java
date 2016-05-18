@@ -1,4 +1,4 @@
-package com.nextplate.ui.adapter_views.admin;
+package com.nextplate.ui.fragment.admin;
 
 import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
@@ -17,9 +17,7 @@ import com.firebase.client.ValueEventListener;
 import com.nextplate.R;
 import com.nextplate.core.fragment.BaseFragment;
 import com.nextplate.models.AlACarte;
-import com.nextplate.models.Meals;
-import com.nextplate.ui.fragment.admin.AddOrEditMealFragment;
-import com.nextplate.ui.fragment.admin.ContentDetailFragment;
+import com.nextplate.ui.adapter_views.admin.AlaCarteItemView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,9 +52,7 @@ public class AlACarteFragment extends BaseFragment implements ViewEventListener
     public void onFragmentReady()
     {
         rvListing.setLayoutManager(new LinearLayoutManager(activity));
-        recyclerMultiAdapter = SmartAdapter.items(alacarteList)
-                .map(AlACarte.class, AlaCarteItemView.class)
-                .listener(this)
+        recyclerMultiAdapter = SmartAdapter.items(alacarteList).map(AlACarte.class, AlaCarteItemView.class).listener(this)
                 .recyclerAdapter();
         rvListing.setAdapter(recyclerMultiAdapter);
         setTitle("Al-a-Carte");
@@ -115,8 +111,7 @@ public class AlACarteFragment extends BaseFragment implements ViewEventListener
         if(item.getItemId() == R.id.action_add_meal)
         {
             getFMTransection().replace(R.id.main_activity_container, ContentDetailFragment.getInstance(KEY, -1), ContentDetailFragment.TAG)
-                    .addToBackStack(null)
-                    .commit();
+                    .addToBackStack(null).commit();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -126,8 +121,7 @@ public class AlACarteFragment extends BaseFragment implements ViewEventListener
     {
         if(view.getId() == R.id.meal_item_view_ivb_edit)
         {
-            new BottomSheet.Builder(getActivity(), R.style.BottomSheet_Dialog).title("Options")
-                    .sheet(R.menu.menu_pop_up_edit_content)
+            new BottomSheet.Builder(getActivity(), R.style.BottomSheet_Dialog).title("Options").sheet(R.menu.menu_pop_up_edit_content)
                     .listener(new DialogInterface.OnClickListener()
                     {
                         @Override
@@ -136,8 +130,7 @@ public class AlACarteFragment extends BaseFragment implements ViewEventListener
                             switch(which)
                             {
                                 case R.id.action_add_edit_content_edit:
-                                    getFMTransection().replace(R.id.main_activity_container,
-                                                               ContentDetailFragment.getInstance(KEY, i1),
+                                    getFMTransection().replace(R.id.main_activity_container, ContentDetailFragment.getInstance(KEY, i1),
                                                                ContentDetailFragment.TAG).addToBackStack(null).commit();
                                     break;
 
@@ -146,12 +139,11 @@ public class AlACarteFragment extends BaseFragment implements ViewEventListener
                                     break;
                             }
                         }
-                    })
-                    .show();
+                    }).show();
             return;
         }
-        getFMTransection().replace(R.id.main_activity_container, AddOrEditMealFragment.getInstance(KEY + "/" + i1, ((Meals) o).getName()),
-                                   AddOrEditMealFragment.TAG).addToBackStack(null).commit();
+        getFMTransection().replace(R.id.main_activity_container, ContentDetailFragment.getInstance(KEY, i1), ContentDetailFragment.TAG)
+                .addToBackStack(null).commit();
     }
 
     public void deleteMeal(int position)

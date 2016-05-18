@@ -2,7 +2,6 @@ package com.nextplate.ui.fragment.admin;
 
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -15,14 +14,10 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.nextplate.R;
 import com.nextplate.core.fragment.BaseFragment;
-import com.nextplate.core.fragment.TimePickerFragment;
 import com.nextplate.core.util.Utility;
 import com.nextplate.models.AlACarte;
 import com.nextplate.models.Contents;
-import com.nextplate.ui.adapter_views.admin.AlACarteFragment;
-import com.nextplate.ui.adapter_views.admin.AlaCarteItemView;
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.rengwuxian.materialedittext.validation.METValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +79,10 @@ public class ContentDetailFragment extends BaseFragment
             setEmptyValidator(etPrice);
             setEmptyValidator(etTimeFrom);
             setEmptyValidator(etTimeTo);
+        }
+        else
+        {
+            llExtraContainer.setVisibility(View.GONE);
         }
 
         firebase = getFireBase().child(getKeyPath);
@@ -204,7 +203,7 @@ public class ContentDetailFragment extends BaseFragment
             @Override
             public void onTimeSet(TimePicker timePicker, int i, int i1)
             {
-                etTimeFrom.setText(i + ":" + i1);
+                etTimeFrom.setText(String.format("%d:%s", i, i1 <10 ? "0"+i1:i1));
             }
         }, "From time");
     }
@@ -217,7 +216,7 @@ public class ContentDetailFragment extends BaseFragment
             @Override
             public void onTimeSet(TimePicker timePicker, int i, int i1)
             {
-                etTimeTo.setText(i + ":" + i1);
+                etTimeTo.setText(String.format("%d:%s", i, i1 <10 ? "0"+i1:i1));
             }
         }, "To time");
     }

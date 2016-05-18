@@ -43,6 +43,7 @@
         android:drawablePadding="10dp"
         android:hint="Option Name"
         android:inputType="text"
+        android:singleLine="true"
         app:met_floatingLabel="highlight"
         app:met_primaryColor="@color/complement_color"/>
 
@@ -57,7 +58,7 @@
             android:id="@+id/frag_content_details_et_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:singleLine="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:drawablePadding="10dp"

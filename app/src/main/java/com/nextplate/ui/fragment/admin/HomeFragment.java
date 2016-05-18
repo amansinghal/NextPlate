@@ -2,7 +2,6 @@ package com.nextplate.ui.fragment.admin;
 
 import com.nextplate.R;
 import com.nextplate.core.fragment.BaseFragment;
-import com.nextplate.ui.adapter_views.admin.AlACarteFragment;
 
 import butterknife.OnClick;
 /**
