@@ -76,6 +76,24 @@ public class Utility
         alert11.show();
     }
 
+    public static String formattedTime(String time)
+    {
+        String formattedTime = "";
+        try
+        {
+            final SimpleDateFormat sdf = new SimpleDateFormat("H:mm");
+            final Date dateObj = sdf.parse(time);
+            System.out.println(dateObj);
+            formattedTime = new SimpleDateFormat("K:mm a").format(dateObj);
+            System.out.println(formattedTime);
+        }
+        catch(final Exception e)
+        {
+            e.printStackTrace();
+        }
+        return formattedTime;
+    }
+
    /* public static void showDialogWithListSelection(Context context, String title, CharSequence[] array, final CustomDialogSingleSelectionInterface listener) {
         final Dialog dialog = new Dialog(context);
         //dialog.setSingleChoiceItems(array, 0, listener);

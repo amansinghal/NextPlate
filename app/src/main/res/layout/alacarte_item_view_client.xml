@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="10dp"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginTop="10dp"
+
+                                    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/sample"/>
+
+            <ListView
+                android:id="@+id/alacarte_item_view_client_lv_listing"
+                android:layout_width="wrap_content"
+                android:layout_height="120dp"
+                android:background="#8A000000"/>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/alacarte_item_view_client_tv_alacarte_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:text="Balanced"
+            android:textSize="@dimen/text_size_20"/>
+
+        <TextView
+            android:id="@+id/alacarte_item_view_client_tv_alacarte_rupees"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="2dp"
+            android:text="Single alacartes"
+            android:textSize="@dimen/text_size_12"/>
+
+        <TextView
+            android:id="@+id/alacarte_item_view_client_tv_alacarte_pack_rupees"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="2dp"
+            android:text="Single alacartes"
+            android:textSize="@dimen/text_size_12"/>
+
+        <Button
+            style="@style/button_3"
+            android:layout_width="match_parent"
+            android:text="Order Now"
+            android:drawablePadding="5dp"
+            android:layout_margin="5dp"
+            android:drawableRight="@drawable/ic_arrow_right_bold_circle_white_18dp"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.nextplate"
@@ -29,6 +29,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.firebase:firebase-client-android:2.4.1'
+    compile 'com.google.firebase:firebase-crash:9.2.1'
     compile 'com.facebook.android:facebook-android-sdk:4.7.0'
     compile('io.nlopez.smartadapters:library:1.2.3') {
         transitive = false
@@ -39,8 +40,10 @@ dependencies {
     compile 'org.parceler:parceler-api:1.0.4'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'com.android.support:recyclerview-v7:24.0.0'
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.cocosw:bottomsheet:1.+@aar'
     compile project(':library_MaterialEditText')
 }
+
+apply plugin: 'com.google.gms.google-services'

@@ -1,5 +1,6 @@
 package com.nextplate.models;
 
+import com.nextplate.core.util.Utility;
 /**
  * Created by AmaN on 3/17/2016.
  */
@@ -54,7 +55,7 @@ public class AlACarte
 
     public String getFromTime()
     {
-        return fromTime;
+        return Utility.formattedTime(fromTime);
     }
 
     public void setFromTime(String fromTime)
@@ -64,7 +65,7 @@ public class AlACarte
 
     public String getToTime()
     {
-        return toTime;
+        return Utility.formattedTime(toTime);
     }
 
     public void setToTime(String toTime)
