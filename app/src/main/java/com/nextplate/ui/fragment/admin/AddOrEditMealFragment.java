@@ -3,6 +3,7 @@ package com.nextplate.ui.fragment.admin;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -82,7 +83,7 @@ public class AddOrEditMealFragment extends BaseFragment implements ViewEventList
         setEmptyValidator(etMealPricePackage);
         setHasOptionsMenu(true);
         //activity.registerForContextMenu(rvListing);
-        rvListing.setLayoutManager(new WrapContentLinearLayoutManager(activity));
+        rvListing.setLayoutManager(new LinearLayoutManager(activity));
         rvListing.setNestedScrollingEnabled(false);
         rvListing.setHasFixedSize(true);
         recyclerMultiAdapter = SmartAdapter.items(contentsList)

@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
-
     defaultConfig {
         applicationId "com.nextplate"
         minSdkVersion 15
@@ -17,11 +16,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     packagingOptions {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE-FIREBASE.txt'
         exclude 'META-INF/NOTICE'
+    }
+    productFlavors {
+        clientFla {
+            applicationId 'com.nextplate.client'
+        }
+        adminFla {
+            applicationId 'com.nextplate.admin'
+        }
     }
 }
 
@@ -40,10 +46,11 @@ dependencies {
     compile 'org.parceler:parceler-api:1.0.4'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
-    compile 'com.android.support:recyclerview-v7:24.0.0'
+    compile 'com.android.support:recyclerview-v7:23.2.0'
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.cocosw:bottomsheet:1.+@aar'
     compile project(':library_MaterialEditText')
 }
+
 
 apply plugin: 'com.google.gms.google-services'
