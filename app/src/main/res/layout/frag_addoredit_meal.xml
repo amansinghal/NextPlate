@@ -18,7 +18,7 @@
             android:layout_marginTop="10dp"
             android:drawablePadding="10dp"
             android:hint="Meal name"
-            android:inputType="text"
+            android:inputType="textCapWords"
             app:met_floatingLabel="highlight"
             app:met_primaryColor="@color/complement_color"/>
 
@@ -29,7 +29,7 @@
             android:layout_marginTop="10dp"
             android:drawablePadding="10dp"
             android:hint="Short description"
-            android:inputType="text"
+            android:inputType="textCapSentences"
             android:minLines="4"
             app:met_floatingLabel="highlight"
             app:met_primaryColor="@color/complement_color"/>

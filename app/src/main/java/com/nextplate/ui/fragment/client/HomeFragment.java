@@ -50,7 +50,7 @@ public class HomeFragment extends BaseFragment implements ViewEventListener
         recyclerAlaCarteAdapter= SmartAdapter.items(alacarteList).map(AlACarte.class, AlacarteItemViewClient.class).listener(this).recyclerAdapter();
         rvAlaCarte.setAdapter(recyclerAlaCarteAdapter);
 
-        setTitle("NextPlate");
+        setTitle("MyPlate");
 
         setHasOptionsMenu(true);
 
