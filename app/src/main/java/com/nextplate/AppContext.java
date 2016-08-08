@@ -35,7 +35,7 @@ public class AppContext extends Application
 
         try
         {
-            PackageInfo info = getPackageManager().getPackageInfo("com.nextplate", PackageManager.GET_SIGNATURES);
+            PackageInfo info = getPackageManager().getPackageInfo(getString(R.string.package_name), PackageManager.GET_SIGNATURES);
             for(Signature signature : info.signatures)
             {
                 MessageDigest md = MessageDigest.getInstance("SHA");

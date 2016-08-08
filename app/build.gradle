@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
     defaultConfig {
         applicationId "com.nextplate"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -23,9 +23,11 @@ android {
     }
     productFlavors {
         clientFla {
+            apply from: file('./src/config/client/config.gradle')
             applicationId 'com.nextplate.client'
         }
         adminFla {
+            apply from: file('./src/config/admin/config.gradle')
             applicationId 'com.nextplate.admin'
         }
     }

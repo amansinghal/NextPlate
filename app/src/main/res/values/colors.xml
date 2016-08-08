@@ -4,4 +4,12 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="complement_color">#00d2ff</color>
+    <color name="colorwhitebackground">#fff</color>
+    <color name="colorbar">#2c3239</color>
+    <color name="colortitletext">#3c4350</color>
+    <color name="colorheadtext">#696d6f</color>
+    <color name="colorbackground">#f2f3f4</color>
+    <color name="colortabback">#191f28</color>
+    <color name="colorStatusBar">#33000000</color>
+
 </resources>

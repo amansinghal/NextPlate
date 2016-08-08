@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.firebase.client.Firebase;
 import com.nextplate.R;
 
 import butterknife.ButterKnife;
@@ -30,6 +31,11 @@ public abstract class BaseActivity extends AppCompatActivity
         initActionBar();
         this.onCreateCustom();
         initProgressDialog();
+    }
+
+    public Firebase getFireBase()
+    {
+        return new Firebase(getString(R.string.baseUrl));
     }
 
     public int getStatusBarHeight()

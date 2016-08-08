@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
+import com.nextplate.R;
 import com.nextplate.core.activity.BaseActivity;
 import com.nextplate.core.preference.Prefrences;
 import com.nextplate.core.rest.FirebaseConstants;
@@ -47,7 +48,7 @@ public abstract class BaseFragment extends Fragment
 
     public Firebase getFireBase()
     {
-        return new Firebase(FirebaseConstants.FIREBASE_URL);
+        return new Firebase(getString(R.string.baseUrl));
     }
 
     private void initProgressDialog()

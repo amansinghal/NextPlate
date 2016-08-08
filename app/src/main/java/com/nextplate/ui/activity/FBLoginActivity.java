@@ -46,7 +46,7 @@ public class FBLoginActivity extends BaseActivity
     {
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
-        firebase = new Firebase(FirebaseConstants.FIREBASE_URL);
+        firebase = getFireBase();
         firebase = firebase.child(FirebaseConstants.URL_USERS);
         loginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday", "user_friends"));
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>()
