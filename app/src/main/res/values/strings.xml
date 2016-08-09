@@ -6,4 +6,6 @@
     <string name="time_to">Timing (To)</string>
     <string name="price">Price</string>
     <string name="ala_a_carte_no_items">No Ala-a-Carte Items</string>
+    <string name="cancel">Cancel</string>
+    <string name="empty_error_msg">Field must not be empty</string>
 </resources>

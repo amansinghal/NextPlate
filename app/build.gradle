@@ -23,11 +23,11 @@ android {
     }
     productFlavors {
         clientFla {
-            apply from: file('./src/config/client/config.gradle')
+            apply from: file('./config/client/config.gradle')
             applicationId 'com.nextplate.client'
         }
         adminFla {
-            apply from: file('./src/config/admin/config.gradle')
+            apply from: file('./config/admin/config.gradle')
             applicationId 'com.nextplate.admin'
         }
     }
@@ -51,6 +51,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.2.0'
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.cocosw:bottomsheet:1.+@aar'
+    compile 'com.google.android.gms:play-services-location:9.2.1'
     compile project(':library_MaterialEditText')
 }
 

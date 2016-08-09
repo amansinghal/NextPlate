@@ -7,6 +7,10 @@ import com.nextplate.core.fragment.BaseFragment;
  */
 public class AlaCarteDetailFragment extends BaseFragment
 {
+    public static final String TAG = "AlaCarteDetailFragment";
+
+
+
     @Override
     public void onFragmentReady()
     {
@@ -16,6 +20,6 @@ public class AlaCarteDetailFragment extends BaseFragment
     @Override
     public int getFragmentLayout()
     {
-        return R.layout.frag_ala_carte_detail;
+        return R.layout.frag_ala_carte_details;
     }
 }

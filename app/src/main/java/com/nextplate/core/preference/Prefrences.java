@@ -51,7 +51,14 @@ public class Prefrences
         getWriteInstance(context).putString(classObj.getClass().getSimpleName(), gson.toJson(classObj)).apply();
     }
 
-    public static <T> Object readClass(Context context, Class<T> classType) {
+    public static void deleteClass(Context context, Class classObj)
+    {
+        Gson gson = new Gson();
+        getWriteInstance(context).putString(classObj.getSimpleName(), "").apply();
+    }
+
+    public static <T> T readClass(Context context, Class<T> classType)
+    {
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = new Gson();
         return gson.fromJson(getReadInstance(context).getString(classType.getSimpleName(), ""), classType);
@@ -68,5 +75,10 @@ public class Prefrences
 
     public static String getToken(Context context) {
         return getReadInstance(context).getString(PREF_TOKEN, "");
+    }
+
+    public class Key
+    {
+        public static final String KEY_CITY = "cityName";
     }
 }

@@ -39,6 +39,28 @@
         <item name="android:textColor">@android:color/black</item>
     </style>
 
+    <style name="AppThemeOverlay1" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="android:actionBarStyle">@style/MyActionBarThemeOverlay1</item>
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="MyActionBarThemeOverlay1" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="background">@android:color/transparent</item>
+        <item name="android:titleTextStyle">@style/MyActionBarTitleOverlay1</item>
+        <item name="displayOptions">showHome|showTitle</item>
+        <item name="titleTextStyle">@style/MyActionBarTitleOverlay</item>
+    </style>
+
+    <style name="MyActionBarTitleOverlay1" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
     <style name="MyActionBarTitle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@android:color/white</item>
     </style>
@@ -61,6 +83,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">#ffffff</item>
         <item name="android:gravity">center</item>
+        <item name="android:padding">12dp</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:buttonStyle">?android:attr/buttonStyleSmall</item>

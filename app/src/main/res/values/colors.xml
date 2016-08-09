@@ -11,5 +11,7 @@
     <color name="colorbackground">#f2f3f4</color>
     <color name="colortabback">#191f28</color>
     <color name="colorStatusBar">#33000000</color>
-
+    <color name="ratingbar">#ff9800</color>
+    <color name="colorgreen">#06bebd</color>
+    <color name="colorwhite">#fff</color>
 </resources>

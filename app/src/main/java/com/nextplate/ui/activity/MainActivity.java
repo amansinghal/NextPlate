@@ -1,11 +1,15 @@
 package com.nextplate.ui.activity;
 
+import android.content.Intent;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.nextplate.BuildConfig;
 import com.nextplate.R;
 import com.nextplate.core.activity.BaseActivity;
+import com.nextplate.core.preference.Prefrences;
+import com.nextplate.ui.activity.client.HomeActivity;
 import com.nextplate.ui.fragment.admin.HomeFragment;
 /**
  * Created by AmaN on 3/8/2016.
@@ -18,7 +22,15 @@ public class MainActivity extends BaseActivity
     {
         if(BuildConfig.FLAVOR.equals("clientFla"))
         {
-            getFMTransectionManager().replace(R.id.main_activity_container, new com.nextplate.ui.fragment.client.HomeFragment()).commit();
+            if(TextUtils.isEmpty(Prefrences.getReadInstance(this).getString(Prefrences.Key.KEY_CITY, "")))
+            {
+                startActivity(new Intent(this, MyLocationActivity.class));
+                finish();
+            }
+            else
+            {
+                startActivity(new Intent(this, HomeActivity.class));
+            }
         }
         else
         {

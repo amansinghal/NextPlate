@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -46,6 +47,15 @@ public class Utility
             e.printStackTrace();
         }
     }
+
+    public static int[] getDeviceWH(Context context)
+    {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        int width = displayMetrics.widthPixels;
+        int height = displayMetrics.heightPixels;
+        return new int[]{width, height};
+    }
+
 
     public static void showDialog(Context context, String message, String positiveText, DialogInterface.OnClickListener posClick,
                                   String negativeText, DialogInterface.OnClickListener negClick)

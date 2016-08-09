@@ -1,26 +1,37 @@
 package com.nextplate.core.activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.graphics.drawable.ColorDrawable;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.firebase.client.Firebase;
 import com.nextplate.R;
+import com.nextplate.core.preference.Prefrences;
+import com.rengwuxian.materialedittext.MaterialEditText;
+import com.rengwuxian.materialedittext.validation.METValidator;
 
 import butterknife.ButterKnife;
-
 /**
  * Created by gspl on 9/25/2015.
  */
 public abstract class BaseActivity extends AppCompatActivity
 {
 
-    private ActionBar actionBar;
+    public ActionBar actionBar;
     private ProgressDialog progressDialog;
+    private String[] action;
+    private BroadcastListener broadcastListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -31,11 +42,6 @@ public abstract class BaseActivity extends AppCompatActivity
         initActionBar();
         this.onCreateCustom();
         initProgressDialog();
-    }
-
-    public Firebase getFireBase()
-    {
-        return new Firebase(getString(R.string.baseUrl));
     }
 
     public int getStatusBarHeight()
@@ -49,12 +55,73 @@ public abstract class BaseActivity extends AppCompatActivity
         return result;
     }
 
+    public void listenBroadcast(final String[] action, final BroadcastListener broadcastListener)
+    {
+        this.action = action;
+        this.broadcastListener = broadcastListener;
+        IntentFilter intentFilter = null;
+        if(action.length > 0)
+        {
+            intentFilter = new IntentFilter();
+            for(String actionStr : action)
+            {
+                intentFilter.addAction(actionStr);
+            }
+            LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(broadcastReceiver, intentFilter);
+        }
+    }
+
+    public void unlistenBroadcast()
+    {
+        try
+        {
+            LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(broadcastReceiver);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+         //   if(intent.getAction().equalsIgnoreCase(action))
+            {
+                broadcastListener.onReceive(intent.getExtras(), intent.getAction());
+            }
+        }
+    };
+
+    public interface BroadcastListener
+    {
+        void onReceive(Bundle bundle, String action);
+    }
+
+    public <T> T readClass(Class<T> classType)
+    {
+        return Prefrences.readClass(this, classType);
+    }
+
+    public void deleteClass(Class classType)
+    {
+        Prefrences.deleteClass(this, classType);
+    }
+
+    public void writeClass(Object object)
+    {
+        Prefrences.writeClass(this, object);
+    }
+
+
     private void initActionBar()
     {
         actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setLogo(R.mipmap.ic_launcher);
+        actionBar.setIcon(R.mipmap.ic_launcher);
         //actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
         //actionBar.setStackedBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
     }
@@ -67,9 +134,34 @@ public abstract class BaseActivity extends AppCompatActivity
         progressDialog.setCancelable(false);
     }
 
+    public Firebase getFireBase()
+    {
+        return new Firebase(getString(R.string.baseUrl));
+    }
+
     public FragmentTransaction getFMTransectionManager()
     {
-        return getSupportFragmentManager().beginTransaction();
+        return setFragmentTransitionAnimation(getSupportFragmentManager().beginTransaction());
+    }
+
+    public FragmentTransaction setFragmentTransitionAnimation(FragmentTransaction ft)
+    {
+        ft.setCustomAnimations(R.anim.frag_right_in, R.anim.frag_left_out, R.anim.frag_left_in, R.anim.frag_right_out);
+        return ft;
+    }
+
+    public void setEmptyValidator(MaterialEditText emptyValidator)
+    {
+        emptyValidator.addValidator(new METValidator(getString(R.string.empty_error_msg))
+        {
+            @Override
+            public boolean isValid(
+                    @NonNull
+                    CharSequence text, boolean isEmpty)
+            {
+                return !isEmpty;
+            }
+        });
     }
 
     abstract public void onCreateCustom();
@@ -102,6 +194,15 @@ public abstract class BaseActivity extends AppCompatActivity
     {
         if(!progressDialog.isShowing())
         {
+            progressDialog.show();
+        }
+    }
+
+    public void showProgress(String message)
+    {
+        if(!progressDialog.isShowing())
+        {
+            progressDialog.setMessage(message);
             progressDialog.show();
         }
     }
@@ -142,5 +243,44 @@ public abstract class BaseActivity extends AppCompatActivity
             super.onBackPressed();
             return true;
         }
+    }
+
+    public void showDialog(String message, String positiveText, DialogInterface.OnClickListener posClick, String negativeText,
+                           DialogInterface.OnClickListener negClick, boolean isCancelable)
+    {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage(message);
+        builder1.setCancelable(isCancelable);
+        builder1.setPositiveButton(positiveText, posClick);
+        builder1.setNegativeButton(negativeText, negClick);
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
+    public void showDialog(String message)
+    {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage(message);
+        builder1.setCancelable(true);
+        builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+
+            }
+        });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
+    public void showDialog(String message, DialogInterface.OnClickListener onClickListener)
+    {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage(message);
+        builder1.setCancelable(true);
+        builder1.setPositiveButton("Ok", onClickListener);
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 }

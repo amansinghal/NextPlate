@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="page_transition_duration">500</integer>
+    <integer name="startOffset_for_pageTransition">100</integer>
+
+</resources>
